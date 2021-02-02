@@ -1,0 +1,517 @@
+﻿<Window x:Class="StudSigns.AdminWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StudSigns"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+     TextElement.Foreground="{DynamicResource MaterialDesignDarkForeground}"
+     TextElement.FontWeight="Regular"
+     TextElement.FontSize="16"
+     TextOptions.TextFormattingMode="Ideal"
+     TextOptions.TextRenderingMode="Auto"
+     Background="{DynamicResource MaterialDesignDarkBackground}"
+     FontFamily="{DynamicResource MaterialDesignFont}"
+     mc:Ignorable="d"
+     Title="Результаты экзаменационных сессий - Администратор" 
+     Height="620" Width="1135" Language="ru-RU"
+     ResizeMode="NoResize" WindowStyle="None" WindowStartupLocation="CenterScreen">
+
+    <Grid Background="{DynamicResource MaterialDesignDarkBackground}" Margin="0">
+
+        <Border BorderBrush="Black" BorderThickness="1" Height="40" VerticalAlignment="Top" Margin="-1,0,-1,0">
+            <Grid MouseLeftButtonDown="TopCase_DragMove" Background="#252525">
+                <Label Content="Результаты экзаменационных сессий - Администратор" VerticalAlignment="Center" Foreground="{DynamicResource MaterialDesignDarkForeground}" HorizontalAlignment="Left" FontSize="16"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="MinimazeButton" Width="25" Height="25" Margin="3" Click="MinimazeButton_Click"/>
+                    <Button x:Name="MaximizeButton" Width="25" Height="25" Margin="3" Click="MaximizeButton_Click" Background="YellowGreen" BorderBrush="YellowGreen"/>
+                    <Button x:Name="CloseButton" Click="CloseButton_Click" Margin="3" Height="25"  VerticalAlignment="Center" Width="25" Background="Red" BorderBrush="Red"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <TabControl
+            Margin="0,40,0,0"
+            Background="#FF494949" BorderBrush="#FF494949">
+            <TabItem 
+                Foreground="{DynamicResource MaterialDesignDarkForeground}"
+                Style="{DynamicResource MaterialDesignNavigationRailTabItem}"
+                Background="{DynamicResource MaterialDesignDarkForeground}"
+                Margin="-5,0,0,0" Width="Auto" Height="50" FontSize="16">
+                <TabItem.Header>
+                    <TextBlock Style="{DynamicResource MaterialDesignButtonTextBlock}" Foreground="{DynamicResource MaterialDesignDarkForeground}">Добавить студента</TextBlock>
+                </TabItem.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <materialDesign:Card Grid.Column="1" Grid.ColumnSpan="3" Background="{DynamicResource MaterialDesignDarkBackground}" Margin="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <Label x:Name="NameLB" Grid.Row="0" Content="Фамилия Имя Отчество*" Style="{DynamicResource MaterialDesignLabel}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox x:Name="SAddSNameTB" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
+                                </Grid>
+                            </Grid>
+
+                            <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <Label x:Name="SNumberLB" Grid.Row="0" Content="Номер зачетной книги*" Style="{DynamicResource MaterialDesignLabel}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox x:Name="SAddSNumberTB" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalContentAlignment="Center" Margin="0,0,5,0"/>
+                                </Grid>
+                            </Grid>
+
+                            <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Column="1" Grid.ColumnSpan="3">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Label x:Name="BirthdayLB" Grid.Row="0" Grid.Column="0" Content="Дата рождения*" Style="{DynamicResource MaterialDesignLabel}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,10,0"/>
+                                    <DatePicker x:Name="SAddBirthdayDP" Grid.Row="1" Grid.Column="0" Margin="0,0,15,0" HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalContentAlignment="Center" CalendarStyle="{DynamicResource CalendarStyleDark}"/>
+
+                                    <Label x:Name="GenderLB" Grid.Row="0" Grid.Column="1" Content="Пол*" Style="{DynamicResource MaterialDesignLabel}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10,0,0,0"/>
+                                    <Grid Grid.Row="1" Grid.Column="1" Margin="5,0,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <RadioButton x:Name="SAddMaleRB" Grid.Column="0" Content="Мужской" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                                        <RadioButton x:Name="SAddFemaleRB" Grid.Column="1" Content="Женский" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                                    </Grid>    
+                                </Grid>
+                            </Grid>
+                            
+                            <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <Label x:Name="FacultyLB" Grid.Row="0" Content="Факультет*" Style="{DynamicResource MaterialDesignLabel}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox x:Name="SAddFacultyTB" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
+                                </Grid>
+                            </Grid>
+
+                            <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Column="1" Grid.ColumnSpan="3">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Label x:Name="SpecialtyLB" Grid.Row="0" Grid.Column="0" Content="Специальность*" Style="{DynamicResource MaterialDesignLabel}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,10,0"/>
+                                    <TextBox x:Name="SAddSpecialtyTB" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalContentAlignment="Center" Margin="0,0,10,0"/>
+
+                                    <Label x:Name="GroupLB" Grid.Row="0" Grid.Column="1" Content="Группа*" Style="{DynamicResource MaterialDesignLabel}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                                    <TextBox x:Name="SAddGroupTB" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalContentAlignment="Center" Margin="10,0,0,0"/>
+                                </Grid>
+                            </Grid>
+
+                            <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="SAddBTN" Grid.Column="1" Grid.ColumnSpan="3" Content="Добавить" Click="SAddBTN_Click"/>
+                            </Grid>
+
+                        </Grid>
+                    </materialDesign:Card>
+                </Grid>
+            </TabItem>
+
+            <TabItem
+                Style="{DynamicResource MaterialDesignNavigationRailTabItem}"
+                Foreground="{DynamicResource MaterialDesignDarkForeground}"
+                Margin="0,0,1,0" Width="Auto" Height="50"
+                Background="{DynamicResource MaterialDesignDarkForeground}" FontSize="16">
+                <TabItem.Header>
+                    <TextBlock Style="{DynamicResource MaterialDesignButtonTextBlock}" Foreground="{DynamicResource MaterialDesignDarkForeground}">Редактировать студентов</TextBlock>
+                </TabItem.Header>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <DataGrid x:Name="StudentsDG" PreviewKeyDown="StudentsDG_PreviewKeyDown" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="12" ColumnWidth="*" AutoGenerateColumns="False" Margin="8" Style="{DynamicResource MaterialDesignDataGrid}" CanUserAddRows="False" CanUserReorderColumns="False" CanUserResizeColumns="True" SelectionMode="Single">
+                        <DataGrid.Columns>
+                            
+                            <DataGridTemplateColumn Header="Номер зачетной книги" Width="3.1*" SortMemberPath="StudentNumber" CellStyle="{DynamicResource MaterialDesignDataGridCell}" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=StudentNumber}" FontSize="14" Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="ФИО" SortMemberPath="Name" Width="4*" CellStyle="{DynamicResource MaterialDesignDataGridCell}" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding Path=Name}" LostFocus="StudentsName_LostFocus" FontSize="14" VerticalContentAlignment="Bottom" Style="{DynamicResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Дата рождения" Width="2.2*" SortMemberPath="DateOfBirth" CellStyle="{DynamicResource MaterialDesignDataGridCell}" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding Path=DateOfBirth, StringFormat='dd.MM.yyyy'}" GotFocus="StudentsBD_GotFocus" LostFocus="StudentsBD_LostFocus" FontSize="14" VerticalContentAlignment="Bottom" Style="{DynamicResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Пол" Width="1.7*" SortMemberPath="Gender" CellStyle="{DynamicResource MaterialDesignDataGridCell}" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding Path=Gender}" LostFocus="StudentsGender_LostFocus" FontSize="14" VerticalContentAlignment="Bottom" Style="{DynamicResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Группа" Width="1.5*" SortMemberPath="Group" CellStyle="{DynamicResource MaterialDesignDataGridCell}" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding Path=Group}" LostFocus="StudentsGroup_LostFocus" FontSize="14" VerticalContentAlignment="Bottom" Style="{DynamicResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Специальность" Width="2.4*" SortMemberPath="Specialty" CellStyle="{DynamicResource MaterialDesignDataGridCell}" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding Path=Specialty}" LostFocus="StudentsSpecialty_LostFocus" FontSize="14" VerticalContentAlignment="Bottom" Style="{DynamicResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Факультет" Width="4.2*" SortMemberPath="Faculty" CellStyle="{DynamicResource MaterialDesignDataGridCell}" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding Path=Faculty}" LostFocus="StudentsFaculty_LostFocus" FontSize="14" VerticalContentAlignment="Bottom" Style="{DynamicResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Grid.Column="0" Grid.Row="12" x:Name="StudentsUpdate" Click="StudentsUpdate_Click" Content="Обновить" HorizontalAlignment="Stretch" Margin="25,0" Style="{DynamicResource MaterialDesignRaisedDarkButton}"/>
+                    <Button Grid.Column="1" Grid.Row="12" x:Name="StudentsSave" Click="StudentsSave_Click" Content="Сохранить изменения" HorizontalAlignment="Stretch" Margin="25,0"/>
+                </Grid>
+            </TabItem>
+
+            <TabItem
+                Style="{DynamicResource MaterialDesignNavigationRailTabItem}"
+                Foreground="{DynamicResource MaterialDesignDarkForeground}"
+                Margin="0,0,1,0" Width="Auto" Height="50"
+                Background="{DynamicResource MaterialDesignDarkForeground}" FontSize="16">
+                <TabItem.Header>
+                    <TextBlock Style="{DynamicResource MaterialDesignButtonTextBlock}" Foreground="{DynamicResource MaterialDesignDarkForeground}">Добавить администратора</TextBlock>
+                </TabItem.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    
+                    <Grid Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Row="1" Grid.Column="1" ToolTip="Введите логин администратора" GotFocus="TextBox_GotFocus" LostFocus="AdminLoginTB_LostFocus" x:Name="AdminLoginTB" HorizontalAlignment="Stretch" TextWrapping="NoWrap" Text="Логин" VerticalAlignment="Center" TextAlignment="Center"/>
+                        <PasswordBox Grid.Row="2" Grid.Column="1" ToolTip="Введите пароль администратора" GotFocus="AdminPassTB_GotFocus" LostFocus="AdminPassTB_LostFocus" HorizontalContentAlignment="Center" x:Name="AdminPassTB" HorizontalAlignment="Stretch" VerticalAlignment="Top" Password="Пароль"/>
+                        <Button Grid.Row="3" Grid.Column="1" x:Name="AdminAddButton" Content="Добавить" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
+                    </Grid>
+                    <Grid Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <DataGrid Grid.Row="0" Grid.RowSpan="4" Margin="10" Style="{DynamicResource MaterialDesignDataGrid}" Background="{DynamicResource MaterialDesignDarkBackground}"/>
+                        <Button Grid.Row="4" Margin="10" Content="Сохранить изменения"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <TabItem
+                Style="{DynamicResource MaterialDesignNavigationRailTabItem}"
+                Foreground="{DynamicResource MaterialDesignDarkForeground}"
+                Margin="0,0,1,0" Width="Auto" Height="50"
+                Background="{DynamicResource MaterialDesignDarkForeground}" FontSize="16">
+                <TabItem.Header>
+                    <TextBlock Style="{DynamicResource MaterialDesignButtonTextBlock}" Foreground="{DynamicResource MaterialDesignDarkForeground}">Добавить результат сессии</TextBlock>
+                </TabItem.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" Grid.RowSpan="14">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <Label Grid.Row="0" Content="Номер зачетной книги*" Style="{DynamicResource MaterialDesignLabel}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalContentAlignment="Center" Margin="0,0,5,0"/>
+                                </Grid>
+                            </Grid>
+
+                            <Grid Grid.Row="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Content="Дата экзамена*" Style="{DynamicResource MaterialDesignLabel}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,10,0"/>
+                                <DatePicker Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalContentAlignment="Center" CalendarStyle="{DynamicResource CalendarStyleDark}"/>
+                            </Grid>
+
+                            <Grid Grid.Row="3">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Content="Отметка за экзамен" Style="{DynamicResource MaterialDesignLabel}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,10,0"/>
+                                <!-- LeftRight int counter -->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
+                                    <Button x:Name="LRC_LeftButton" Content="&lt;" Click="LRC_LeftButton_Click"/>
+                                    <TextBlock x:Name="LRC_Label" Text="5" Margin="25,0" Style="{DynamicResource MaterialDesignHeadline6TextBlock}" VerticalAlignment="Center" Foreground="White"/>
+                                    <Button x:Name="LRC_RightButton" Content=">" Click="LRC_RightButton_Click"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid Grid.Row="4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button Grid.Column="1" Grid.ColumnSpan="3" Content="Добавить результат сессии"/>
+                            </Grid>
+                        </Grid>
+
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <DataGrid Style="{DynamicResource MaterialDesignDataGrid}" ToolTip="Дисциплины" Background="{DynamicResource MaterialDesignDarkBackground}" Grid.Row="0" Margin="5"/>
+                            
+                            <Grid Grid.Row="1" Grid.RowSpan="2" Margin="15">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                
+                                <Grid Grid.Row="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Label Margin="15,0" Grid.Row="0" Content="Название дисциплины" VerticalContentAlignment="Bottom" Style="{DynamicResource MaterialDesignLabel}" Foreground="White"/>
+                                    <TextBox Margin="15,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
+                                </Grid>
+
+                                <Grid Grid.Row="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Label Margin="15,0" Grid.Row="0" Content="Преподаватель" VerticalContentAlignment="Bottom" Style="{DynamicResource MaterialDesignLabel}" Foreground="White"/>
+                                    <TextBox Margin="15,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
+                                </Grid>
+                                
+                                <Grid Grid.Row="2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Button Grid.Row="0" Content="Добавить дисциплину" Margin="15,1"/>
+                                    <Button Grid.Row="1" Content="Сохранить изменения" Margin="15,1"/>
+                                </Grid>
+                                
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
