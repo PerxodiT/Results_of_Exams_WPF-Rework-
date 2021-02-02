@@ -86,11 +86,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AdminEditor.cs" />
     <Compile Include="AdminWindow.xaml.cs">
       <DependentUpon>AdminWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="DB.cs" />
     <Compile Include="DBInterface.cs" />
+    <Compile Include="Migrations\202102021415465_AdminsAdd.cs" />
+    <Compile Include="Migrations\202102021415465_AdminsAdd.designer.cs">
+      <DependentUpon>202102021415465_AdminsAdd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="StudentEditor.cs" />
     <Compile Include="StudentWindow.xaml.cs">
       <DependentUpon>StudentWindow.xaml</DependentUpon>
@@ -130,6 +136,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Migrations\202102021415465_AdminsAdd.resx">
+      <DependentUpon>202102021415465_AdminsAdd.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

@@ -335,8 +335,39 @@
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <DataGrid Grid.Row="0" Grid.RowSpan="4" Margin="10" Style="{DynamicResource MaterialDesignDataGrid}" Background="{DynamicResource MaterialDesignDarkBackground}"/>
-                        <Button Grid.Row="4" Margin="10" Content="Сохранить изменения"/>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <DataGrid x:Name="AdminsDG" PreviewKeyDown="AdminsDG_PreviewKeyDown" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="4" ColumnWidth="*" AutoGenerateColumns="False" Margin="10" Style="{DynamicResource MaterialDesignDataGrid}" CanUserAddRows="False" CanUserReorderColumns="False" CanUserResizeColumns="True" SelectionMode="Single">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="Логин" Width="1*" SortMemberPath="Login" CellStyle="{DynamicResource MaterialDesignDataGridCell}" >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding Path=Login}" LostFocus="AdminsLogins_LostFocus" FontSize="14" VerticalContentAlignment="Bottom" Style="{DynamicResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="Задать новый пароль" Width="2*"  CellStyle="{DynamicResource MaterialDesignDataGridCell}" >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <PasswordBox Password="Пароль" LostFocus="AdminsPasswords_LostFocus" FontSize="14" Style="{DynamicResource MaterialDesignPasswordBox}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="Является суперадминистратором" Width="2*" SortMemberPath="isSuperAdmin" CellStyle="{DynamicResource MaterialDesignDataGridCell}" >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox Style="{DynamicResource MaterialDesignActionDarkCheckBox}" IsChecked="{Binding Path=isSuperAdmin}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <Button Grid.Row="4" Grid.Column="1" Margin="10" x:Name="AdminsSave" Click="AdminsSave_Click" Content="Сохранить изменения"/>
+                        <Button Grid.Row="4" Grid.Column="0" Margin="10" x:Name="AdminsUpdate" Click="AdminsUpdate_Click" Content="Обновить" Style="{DynamicResource MaterialDesignRaisedDarkButton}"/>
                     </Grid>
                 </Grid>
             </TabItem>

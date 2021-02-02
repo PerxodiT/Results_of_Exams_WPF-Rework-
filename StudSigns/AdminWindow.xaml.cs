@@ -20,20 +20,25 @@ namespace StudSigns
     /// </summary>
     public partial class AdminWindow : Window
     {
-        public AdminWindow()
+        private string LoggedAdminLogin;
+        public AdminWindow(string AdminLogin)
         {
             InitializeComponent();
             StudentEditor.Init();
+            AdminEditor.Init();
+            LoggedAdminLogin = AdminLogin;
 
             SAddMaleRB.IsChecked = true;
             SAddFemaleRB.IsChecked = false;
             DataLoad();
         }
 
+
         private void DataLoad()
         {
-            StudentsDG.ItemsSource = new List<Student>();
             StudentsDG.ItemsSource = StudentEditor.GetStudents();
+            var da = AdminsDG.Items;
+            AdminsDG.ItemsSource = AdminEditor.GetAdmins();
         }
 
         //System components logic
@@ -272,7 +277,81 @@ namespace StudSigns
                     StudentsDG.CanUserDeleteRows = false;
                     e.Handled = true;
                 }
+            }
+        }
 
+        private void AdminsUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            DataLoad();
+        }
+
+        private void AdminsSave_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                AdminEditor.SaveChanges();
+                MessageBox.Show(this,
+                                $"Сохраниние успешно!",
+                                "Успех!",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Information
+                            );
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(this,
+                            $"Ошибка при сохранении!",
+                            "Ошибка",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Error
+                        );
+            }
+        }
+
+        private void AdminsDG_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete && StudentsDG.SelectedItem != null)
+            {
+                var res = MessageBox.Show(this,
+                    $"Вы действительно хотите удалить {((Administrator)AdminsDG.SelectedItem).Login}?",
+                    "Подтвердите удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (res == MessageBoxResult.Yes)
+                {
+                    AdminsDG.CanUserDeleteRows = true;
+                }
+                else
+                {
+                    AdminsDG.CanUserDeleteRows = false;
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private void AdminsLogins_LostFocus(object sender, RoutedEventArgs e)
+        {
+            ((Administrator)AdminsDG.SelectedItem).Login = ((TextBox)sender).Text.Trim();
+        }
+
+        private void AdminsPasswords_LostFocus(object sender, RoutedEventArgs e)
+        {
+            Regex passwordCheck = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9])\S{6,16}$");
+            string pass = ((PasswordBox)sender).Password.Trim();
+            if (!passwordCheck.IsMatch(pass))
+            {
+                MessageBox.Show(
+                            "Ошибка",
+                            "Слишком слабый пароль, в пароле должна быть минимум \n" +
+                            "одна цифра, одна буква(английская),\n" +
+                            "большая буква и любой знак (? = .), \n" +
+                            "длина пароля от 6 до 16 символов!\n",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Error
+                        );
+                ((PasswordBox)sender).Password = "Пароль";
+                return;
+            } else if (((PasswordBox)sender).Password.Trim() != "")
+            {
+                ((Administrator)AdminsDG.SelectedItem).Pass = ((PasswordBox)sender).Password.Trim();
             }
         }
 

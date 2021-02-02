@@ -85,6 +85,7 @@ namespace StudSigns
         public DbSet<Discipline> Disciplines { get; set; }
     }
 
+    
     class Administrator
     {
         [Required]
@@ -92,12 +93,31 @@ namespace StudSigns
         public string Login { get; set; }
         [Required]
         public string Pass { get; set; }
+        [Required]
+        public bool isSuperAdmin { get; set; }
+    }
+
+    class AdministratorInitializer : DropCreateDatabaseIfModelChanges<AdministratorContext>
+    {
+        protected override void Seed(AdministratorContext db)
+        {
+            var adm = new Administrator()
+            {
+                Login = "admin",
+                Pass = "admin",
+                isSuperAdmin = true
+            };
+
+            db.Admins.Add(adm);
+        }
     }
 
     class AdministratorContext : DbContext
     {
         public AdministratorContext() : base("DbConnect")
-        { }
+        {
+            Database.SetInitializer<AdministratorContext>(new AdministratorInitializer());
+        }
         public DbSet<Administrator> Admins { get; set; }
     }
 }

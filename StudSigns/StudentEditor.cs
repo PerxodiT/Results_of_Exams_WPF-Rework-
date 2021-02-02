@@ -26,16 +26,9 @@ namespace StudSigns
             return students;
         }
 
-        static public void RemoveStudent(string StudentNumber)
-        {
-            var stud = DataBase.Students.Find(StudentNumber);
-            DataBase.Students.Remove(stud);
-        }
-
         static public void SaveChanges()
         {
             DataBase.SaveChanges();
         }
-
     }
 }

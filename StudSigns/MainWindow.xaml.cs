@@ -23,11 +23,11 @@ namespace StudSigns
         public MainWindow()
         {
             InitializeComponent();
-
             //Database preload
             using (StudentContext StudentsDb = new StudentContext())
                 StudentsDb.Students.Find("");
         }
+
 
         //System components logic
         private void TopCase_DragMove(object sender, MouseButtonEventArgs e)
@@ -97,9 +97,9 @@ namespace StudSigns
         }
         private void AdminLoginButton_Click(object sender, RoutedEventArgs e)
         {
-            if (DBInterface.AdminInput(AdminLoginTB.Text, AdminPassTB.Password))
+            if (DBInterface.AdminInput(AdminLoginTB.Text.Trim(), AdminPassTB.Password.Trim()))
             {
-                var AdminWindow = new AdminWindow();
+                var AdminWindow = new AdminWindow(AdminLoginTB.Text.Trim());
                 AdminWindow.Show();
             } else
             {
