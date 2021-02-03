@@ -21,13 +21,21 @@ namespace StudSigns
     public partial class AdminWindow : Window
     {
         private string LoggedAdminLogin;
-        public AdminWindow(string AdminLogin)
+        private AddAdminTab AddAdminTab;
+
+        public AdminWindow(string AdminLogin, string AdminPass)
         {
             InitializeComponent();
             StudentEditor.Init();
             AdminEditor.Init();
+            DisciplineEditor.Init();
             LoggedAdminLogin = AdminLogin;
+            AddAdminTab = new AddAdminTab(this);
 
+            if (!DBInterface.GetAdminPermission(AdminLogin, AdminPass))
+            {
+                AddAdminTabItem.IsEnabled = false;
+            }
             SAddMaleRB.IsChecked = true;
             SAddFemaleRB.IsChecked = false;
             DataLoad();
@@ -37,8 +45,7 @@ namespace StudSigns
         private void DataLoad()
         {
             StudentsDG.ItemsSource = StudentEditor.GetStudents();
-            var da = AdminsDG.Items;
-            AdminsDG.ItemsSource = AdminEditor.GetAdmins();
+            DisciplinesDG.ItemsSource = DisciplineEditor.GetDisciplines();
         }
 
         //System components logic
@@ -75,21 +82,6 @@ namespace StudSigns
             var tb = (TextBox)sender;
             if (tb.Text == "Логин" || tb.Text == "Номер зачетной книги")
                 tb.Text = "";
-        }
-        private void AdminPassTB_GotFocus(object sender, RoutedEventArgs e)
-        {
-            var pb = (PasswordBox)sender;
-            if (pb.Password == "Пароль") pb.Password = "";
-        }
-        private void AdminPassTB_LostFocus(object sender, RoutedEventArgs e)
-        {
-            var pb = (PasswordBox)sender;
-            if (pb.Password.Trim() == "") pb.Password = "Пароль";
-        }
-        private void AdminLoginTB_LostFocus(object sender, RoutedEventArgs e)
-        {
-            var tb = (TextBox)sender;
-            if (tb.Text.Trim() == "") tb.Text = "Логин";
         }
 
         private void LRC_RightButton_Click(object sender, RoutedEventArgs e)
@@ -198,13 +190,13 @@ namespace StudSigns
             Regex regex = new Regex(@"^(0[1-9]|[12][0-9]|3[01]).(0[1-9]|1[012]).(14|15|16|17|18|19|20)\d\d$");
             if (regex.IsMatch(tb.Text.Trim()))
             {
-
+                ((Student)StudentsDG.SelectedItem).DateOfBirth = Convert.ToDateTime(tb.Text.Trim());
                 return;
             }
             else
             {
                 tb.Text = EditingDateOfBirthText;
-                ((Student)StudentsDG.SelectedItem).DateOfBirth = Convert.ToDateTime(tb.Text);
+                ((Student)StudentsDG.SelectedItem).DateOfBirth = Convert.ToDateTime(tb.Text.Trim());
             }
         }
 
@@ -238,26 +230,31 @@ namespace StudSigns
 
         private void StudentsName_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (((TextBox)sender).Text.Trim() != "")
             ((Student)StudentsDG.SelectedItem).Name = ((TextBox)sender).Text.Trim();
         }
 
         private void StudentsGender_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (((TextBox)sender).Text.Trim() != "")
             ((Student)StudentsDG.SelectedItem).Gender = ((TextBox)sender).Text.Trim();
         }
 
         private void StudentsGroup_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (((TextBox)sender).Text.Trim() != "")
             ((Student)StudentsDG.SelectedItem).Group = ((TextBox)sender).Text.Trim();
         }
 
         private void StudentsSpecialty_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (((TextBox)sender).Text.Trim() != "")
             ((Student)StudentsDG.SelectedItem).Specialty = ((TextBox)sender).Text.Trim();
         }
 
         private void StudentsFaculty_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (((TextBox)sender).Text.Trim() != "")
             ((Student)StudentsDG.SelectedItem).Faculty = ((TextBox)sender).Text.Trim();
         }
 
@@ -280,81 +277,97 @@ namespace StudSigns
             }
         }
 
-        private void AdminsUpdate_Click(object sender, RoutedEventArgs e)
+        private void OnPasswordConfirmed()
         {
-            DataLoad();
+            AddAdminFrame.Navigate(AddAdminTab);
         }
 
-        private void AdminsSave_Click(object sender, RoutedEventArgs e)
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            try
+            if (e.Source is TabControl && this.IsLoaded)
             {
-                AdminEditor.SaveChanges();
-                MessageBox.Show(this,
-                                $"Сохраниние успешно!",
-                                "Успех!",
-                                MessageBoxButton.OK,
-                                MessageBoxImage.Information
-                            );
-            }
-            catch (Exception)
-            {
-                MessageBox.Show(this,
-                            $"Ошибка при сохранении!",
-                            "Ошибка",
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Error
-                        );
+                TabItem selectedTab = e.AddedItems[0] as TabItem;
+                if (selectedTab == null) return;
+
+                if (selectedTab.Name == "AddAdminTabItem")
+                {
+                    AddAdminFrame.Navigate(new PasswordConfirmation(LoggedAdminLogin, OnPasswordConfirmed));
+                }
             }
         }
 
-        private void AdminsDG_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void SaveDisciplinesBTN_Click(object sender, RoutedEventArgs e)
         {
-            if (e.Key == Key.Delete && StudentsDG.SelectedItem != null)
+            DisciplineEditor.SaveChanges();
+        }
+
+        private void AddDisciplineBTN_Click(object sender, RoutedEventArgs e)
+        {
+            bool isValid = true;
+            if (DisciplineNameTB.Text.Trim() == "")
+            {
+                DisciplineNameLB.Foreground = Brushes.Red;
+                isValid = false;
+            }
+            else
+            {
+                DisciplineNameLB.Foreground = Brushes.White;
+            }
+            if (TeacherTB.Text.Trim() == "")
+            {
+                TeacherLB.Foreground = Brushes.Red;
+                isValid = false;
+            }
+            else
+            {
+                TeacherLB.Foreground = Brushes.White;
+            }
+            if (isValid)
+            {
+                var Discipline = new Discipline()
+                {
+                    Name = DisciplineNameTB.Text.Trim(),
+                    Teacher = TeacherTB.Text.Trim()
+                };
+                DBInterface.DisciplineADD(Discipline);
+            }
+
+        }
+
+        private void DisciplinesDG_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete && DisciplinesDG.SelectedItem != null)
             {
                 var res = MessageBox.Show(this,
-                    $"Вы действительно хотите удалить {((Administrator)AdminsDG.SelectedItem).Login}?",
+                    $"Вы действительно хотите удалить {((Discipline)DisciplinesDG.SelectedItem).Name}?",
                     "Подтвердите удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (res == MessageBoxResult.Yes)
                 {
-                    AdminsDG.CanUserDeleteRows = true;
+                    DisciplinesDG.CanUserDeleteRows = true;
                 }
                 else
                 {
-                    AdminsDG.CanUserDeleteRows = false;
+                    DisciplinesDG.CanUserDeleteRows = false;
                     e.Handled = true;
                 }
             }
         }
 
-        private void AdminsLogins_LostFocus(object sender, RoutedEventArgs e)
+        private void DisciplineUpdate_Click(object sender, RoutedEventArgs e)
         {
-            ((Administrator)AdminsDG.SelectedItem).Login = ((TextBox)sender).Text.Trim();
+            DataLoad();
         }
 
-        private void AdminsPasswords_LostFocus(object sender, RoutedEventArgs e)
+        private void DisciplineName_LostFocus(object sender, RoutedEventArgs e)
         {
-            Regex passwordCheck = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9])\S{6,16}$");
-            string pass = ((PasswordBox)sender).Password.Trim();
-            if (!passwordCheck.IsMatch(pass))
-            {
-                MessageBox.Show(
-                            "Ошибка",
-                            "Слишком слабый пароль, в пароле должна быть минимум \n" +
-                            "одна цифра, одна буква(английская),\n" +
-                            "большая буква и любой знак (? = .), \n" +
-                            "длина пароля от 6 до 16 символов!\n",
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Error
-                        );
-                ((PasswordBox)sender).Password = "Пароль";
-                return;
-            } else if (((PasswordBox)sender).Password.Trim() != "")
-            {
-                ((Administrator)AdminsDG.SelectedItem).Pass = ((PasswordBox)sender).Password.Trim();
-            }
+            if (((TextBox)sender).Text.Trim() != "")
+            ((Discipline)DisciplinesDG.SelectedItem).Name = ((TextBox)sender).Text.Trim();
         }
 
-        //
+        private void Teacher_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (((TextBox)sender).Text.Trim() != "")
+                ((Discipline)DisciplinesDG.SelectedItem).Teacher = ((TextBox)sender).Text.Trim();
+        }
     }
 }

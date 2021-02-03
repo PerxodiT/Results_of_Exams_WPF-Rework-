@@ -14,6 +14,16 @@ namespace StudSigns
                 return db.Students.Find(id) != null;
         }
 
+        static public bool GetAdminPermission(string Login, string Pass)
+        {
+            using (AdministratorContext db = new AdministratorContext())
+            {
+                var adm = db.Admins.Where(a => a.Login == Login && a.Pass == Pass).FirstOrDefault();
+                if (adm == null) return false;
+                return adm.isSuperAdmin;
+            }
+        }
+
         static public bool AdminInput(string Login, string Password)
         {
             using (AdministratorContext db = new AdministratorContext())
@@ -49,6 +59,33 @@ namespace StudSigns
             {
                 db.Students.Add(student);
                 db.SaveChanges();
+            }
+        }
+
+        static public void DisciplineADD(Discipline discipline)
+        {
+            using (DisciplineContext db = new DisciplineContext())
+            {
+                db.Disciplines.Add(discipline);
+                db.SaveChanges();
+            }
+        }
+
+        /// <returns>Returns true when administrator added correctly</returns>
+        static public bool AdminADD(Administrator admin)
+        {
+            using (AdministratorContext db = new AdministratorContext())
+            {
+                if (db.Admins.Find(admin.Login) == null)
+                {
+                    db.Admins.Add(admin);
+                    db.SaveChanges();
+                    return true;
+                } 
+                else
+                {
+                    return false;
+                }
             }
         }
     }

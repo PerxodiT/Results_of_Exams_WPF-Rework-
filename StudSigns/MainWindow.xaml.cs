@@ -99,7 +99,7 @@ namespace StudSigns
         {
             if (DBInterface.AdminInput(AdminLoginTB.Text.Trim(), AdminPassTB.Password.Trim()))
             {
-                var AdminWindow = new AdminWindow(AdminLoginTB.Text.Trim());
+                var AdminWindow = new AdminWindow(AdminLoginTB.Text.Trim(), AdminPassTB.Password.Trim());
                 AdminWindow.Show();
             } else
             {

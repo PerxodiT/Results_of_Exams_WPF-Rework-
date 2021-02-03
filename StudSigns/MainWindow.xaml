@@ -46,7 +46,7 @@
                 </TabItem.Header>
                 <Grid Background="#FF494949" Focusable="True">
                     <TextBox ToolTip="Введите логин администратора" GotFocus="TextBox_GotFocus" LostFocus="AdminLoginTB_LostFocus" x:Name="AdminLoginTB" HorizontalAlignment="Center" Height="29" Margin="124,49,120,149" TextWrapping="NoWrap" Text="Логин" VerticalAlignment="Center" Width="281" TextAlignment="Center"/>
-                    <PasswordBox ToolTip="Введите пароль администратора" GotFocus="AdminPassTB_GotFocus" LostFocus="AdminPassTB_LostFocus" HorizontalContentAlignment="Center" x:Name="AdminPassTB" HorizontalAlignment="Center" Height="28" Margin="124,88,120,111" VerticalAlignment="Center" Width="281" Password="Пароль"/>
+                    <PasswordBox ToolTip="Введите пароль администратора" Foreground="{DynamicResource MaterialDesignDarkForeground}" GotFocus="AdminPassTB_GotFocus" LostFocus="AdminPassTB_LostFocus" HorizontalContentAlignment="Center" x:Name="AdminPassTB" HorizontalAlignment="Center" Height="28" Margin="124,88,120,111" VerticalAlignment="Center" Width="281" Password="Пароль"/>
                     <Button x:Name="AdminLoginButton" Content="Вход" Click="AdminLoginButton_Click" HorizontalAlignment="Left" Margin="124,130,0,0" VerticalAlignment="Top" Width="281" Height="35" FontSize="16"/>
                 </Grid>
             </TabItem>

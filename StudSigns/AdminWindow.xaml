@@ -30,9 +30,9 @@
             </Grid>
         </Border>
 
-        <TabControl
-            Margin="0,40,0,0"
-            Background="#FF494949" BorderBrush="#FF494949">
+        <TabControl x:Name="AdminWindowTabControl" SelectionChanged="TabControl_SelectionChanged" 
+            Margin="0,40,0,0" Focusable="True"
+            Background="#FF494949" BorderBrush="#FF494949" >
             <TabItem 
                 Foreground="{DynamicResource MaterialDesignDarkForeground}"
                 Style="{DynamicResource MaterialDesignNavigationRailTabItem}"
@@ -131,10 +131,10 @@
                                         </Grid.ColumnDefinitions>
                                         <RadioButton x:Name="SAddMaleRB" Grid.Column="0" Content="Мужской" VerticalAlignment="Top" HorizontalAlignment="Center"/>
                                         <RadioButton x:Name="SAddFemaleRB" Grid.Column="1" Content="Женский" VerticalAlignment="Top" HorizontalAlignment="Center"/>
-                                    </Grid>    
+                                    </Grid>
                                 </Grid>
                             </Grid>
-                            
+
                             <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
@@ -226,7 +226,7 @@
                     </Grid.RowDefinitions>
                     <DataGrid x:Name="StudentsDG" PreviewKeyDown="StudentsDG_PreviewKeyDown" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="12" ColumnWidth="*" AutoGenerateColumns="False" Margin="8" Style="{DynamicResource MaterialDesignDataGrid}" CanUserAddRows="False" CanUserReorderColumns="False" CanUserResizeColumns="True" SelectionMode="Single">
                         <DataGrid.Columns>
-                            
+
                             <DataGridTemplateColumn Header="Номер зачетной книги" Width="3.1*" SortMemberPath="StudentNumber" CellStyle="{DynamicResource MaterialDesignDataGridCell}" >
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -289,87 +289,15 @@
                 </Grid>
             </TabItem>
 
-            <TabItem
+            <TabItem x:Name="AddAdminTabItem"
                 Style="{DynamicResource MaterialDesignNavigationRailTabItem}"
                 Foreground="{DynamicResource MaterialDesignDarkForeground}"
                 Margin="0,0,1,0" Width="Auto" Height="50"
-                Background="{DynamicResource MaterialDesignDarkForeground}" FontSize="16">
+                Background="{DynamicResource MaterialDesignDarkForeground}" FontSize="16" >
                 <TabItem.Header>
                     <TextBlock Style="{DynamicResource MaterialDesignButtonTextBlock}" Foreground="{DynamicResource MaterialDesignDarkForeground}">Добавить администратора</TextBlock>
                 </TabItem.Header>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    
-                    <Grid Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3">
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <TextBox Grid.Row="1" Grid.Column="1" ToolTip="Введите логин администратора" GotFocus="TextBox_GotFocus" LostFocus="AdminLoginTB_LostFocus" x:Name="AdminLoginTB" HorizontalAlignment="Stretch" TextWrapping="NoWrap" Text="Логин" VerticalAlignment="Center" TextAlignment="Center"/>
-                        <PasswordBox Grid.Row="2" Grid.Column="1" ToolTip="Введите пароль администратора" GotFocus="AdminPassTB_GotFocus" LostFocus="AdminPassTB_LostFocus" HorizontalContentAlignment="Center" x:Name="AdminPassTB" HorizontalAlignment="Stretch" VerticalAlignment="Top" Password="Пароль"/>
-                        <Button Grid.Row="3" Grid.Column="1" x:Name="AdminAddButton" Content="Добавить" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
-                    </Grid>
-                    <Grid Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3">
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <DataGrid x:Name="AdminsDG" PreviewKeyDown="AdminsDG_PreviewKeyDown" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="4" ColumnWidth="*" AutoGenerateColumns="False" Margin="10" Style="{DynamicResource MaterialDesignDataGrid}" CanUserAddRows="False" CanUserReorderColumns="False" CanUserResizeColumns="True" SelectionMode="Single">
-                            <DataGrid.Columns>
-                                <DataGridTemplateColumn Header="Логин" Width="1*" SortMemberPath="Login" CellStyle="{DynamicResource MaterialDesignDataGridCell}" >
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBox Text="{Binding Path=Login}" LostFocus="AdminsLogins_LostFocus" FontSize="14" VerticalContentAlignment="Bottom" Style="{DynamicResource MaterialDesignDataGridTextColumnEditingStyle}"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-
-                                <DataGridTemplateColumn Header="Задать новый пароль" Width="2*"  CellStyle="{DynamicResource MaterialDesignDataGridCell}" >
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <PasswordBox Password="Пароль" LostFocus="AdminsPasswords_LostFocus" FontSize="14" Style="{DynamicResource MaterialDesignPasswordBox}"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-
-                                <DataGridTemplateColumn Header="Является суперадминистратором" Width="2*" SortMemberPath="isSuperAdmin" CellStyle="{DynamicResource MaterialDesignDataGridCell}" >
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <CheckBox Style="{DynamicResource MaterialDesignActionDarkCheckBox}" IsChecked="{Binding Path=isSuperAdmin}"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                        <Button Grid.Row="4" Grid.Column="1" Margin="10" x:Name="AdminsSave" Click="AdminsSave_Click" Content="Сохранить изменения"/>
-                        <Button Grid.Row="4" Grid.Column="0" Margin="10" x:Name="AdminsUpdate" Click="AdminsUpdate_Click" Content="Обновить" Style="{DynamicResource MaterialDesignRaisedDarkButton}"/>
-                    </Grid>
-                </Grid>
+                <Frame x:Name="AddAdminFrame" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" NavigationUIVisibility="Hidden"/>
             </TabItem>
 
             <TabItem
@@ -493,54 +421,86 @@
 
                                 <Button Grid.Column="1" Grid.ColumnSpan="3" Content="Добавить результат сессии"/>
                             </Grid>
+                            <Grid Grid.Row="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button x:Name="DisciplineUpdate" Grid.Column="1" Grid.ColumnSpan="3" Content="Обновить" Style="{DynamicResource MaterialDesignRaisedDarkButton}" Click="DisciplineUpdate_Click"/>
+                            </Grid>
                         </Grid>
 
                         <Grid Grid.Column="1">
                             <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
+                                <RowDefinition Height="188*"/>
+                                <RowDefinition Height="125*"/>
+                                <RowDefinition Height="144*"/>
                             </Grid.RowDefinitions>
-                            <DataGrid Style="{DynamicResource MaterialDesignDataGrid}" ToolTip="Дисциплины" Background="{DynamicResource MaterialDesignDarkBackground}" Grid.Row="0" Margin="5"/>
-                            
+                            <DataGrid x:Name="DisciplinesDG" PreviewKeyDown="DisciplinesDG_PreviewKeyDown" Style="{DynamicResource MaterialDesignDataGrid}" CanUserAddRows="False" ToolTip="Дисциплины" AutoGenerateColumns="False" Grid.Row="0" Margin="5" SelectionMode="Single">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Header="Название дисциплины" SortMemberPath="Name" CellStyle="{DynamicResource MaterialDesignDataGridCell}" >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Text="{Binding Path=Name}" LostFocus="DisciplineName_LostFocus" FontSize="12" Style="{DynamicResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Header="Преподаватель" SortMemberPath="Teacher" CellStyle="{DynamicResource MaterialDesignDataGridCell}" >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Text="{Binding Path=Teacher}" LostFocus="Teacher_LostFocus" FontSize="12" Style="{DynamicResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
                             <Grid Grid.Row="1" Grid.RowSpan="2" Margin="15">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
+                                    <RowDefinition Height="65*"/>
+                                    <RowDefinition Height="55*"/>
+                                    <RowDefinition Height="119*"/>
                                 </Grid.RowDefinitions>
-                                
+
                                 <Grid Grid.Row="0">
                                     <Grid.RowDefinitions>
                                         <RowDefinition/>
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
-                                    <Label Margin="15,0" Grid.Row="0" Content="Название дисциплины" VerticalContentAlignment="Bottom" Style="{DynamicResource MaterialDesignLabel}" Foreground="White"/>
-                                    <TextBox Margin="15,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
+                                    <Label x:Name="DisciplineNameLB" Margin="15,0" Grid.Row="0" Content="Название дисциплины*" VerticalContentAlignment="Bottom" Style="{DynamicResource MaterialDesignLabel}" Foreground="White"/>
+                                    <TextBox x:Name="DisciplineNameTB" Margin="15,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
                                 </Grid>
 
                                 <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="7*"/>
+                                        <ColumnDefinition Width="339*"/>
+                                    </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition/>
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
-                                    <Label Margin="15,0" Grid.Row="0" Content="Преподаватель" VerticalContentAlignment="Bottom" Style="{DynamicResource MaterialDesignLabel}" Foreground="White"/>
-                                    <TextBox Margin="15,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
+                                    <Label x:Name="TeacherLB" Margin="8,0,15,0" Grid.Row="0" Content="Преподаватель*" VerticalContentAlignment="Bottom" Style="{DynamicResource MaterialDesignLabel}" Foreground="White" Grid.Column="1"/>
+                                    <TextBox x:Name="TeacherTB" Margin="8,0,15,0" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Center" Grid.Column="1"/>
                                 </Grid>
-                                
+
                                 <Grid Grid.Row="2">
                                     <Grid.RowDefinitions>
                                         <RowDefinition/>
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
-                                    <Button Grid.Row="0" Content="Добавить дисциплину" Margin="15,1"/>
-                                    <Button Grid.Row="1" Content="Сохранить изменения" Margin="15,1"/>
+                                    <Button Grid.Row="0" Content="Добавить дисциплину" x:Name="AddDisciplineBTN" Click="AddDisciplineBTN_Click" ToolTip='Для добавления дисциплины заполните поля "Название дисциплины" и "Преподаватель"' Margin="15,1"/>
+                                    <Button Grid.Row="1" Content="Сохранить изменения дисциплин" x:Name="SaveDisciplinesBTN" Click="SaveDisciplinesBTN_Click" Margin="15,1"/>
                                 </Grid>
-                                
                             </Grid>
                         </Grid>
                     </Grid>
-                    
+
                 </Grid>
             </TabItem>
         </TabControl>
