@@ -369,5 +369,76 @@ namespace StudSigns
             if (((TextBox)sender).Text.Trim() != "")
                 ((Discipline)DisciplinesDG.SelectedItem).Teacher = ((TextBox)sender).Text.Trim();
         }
+
+        private void AddSessionResultBTN_Click(object sender, RoutedEventArgs e)
+        {
+            bool isValid = true;
+            if (AddResultStudentNumberTB.Text.Trim() == "")
+            {
+                AddResultStudentNumberLB.Foreground = Brushes.Red;
+                isValid = false;
+            }
+            else
+            {
+                AddResultStudentNumberLB.Foreground = Brushes.White;
+            }
+            if (ExamDateDP.SelectedDate == null)
+            {
+                ExamDateLB.Foreground = Brushes.Red;
+                isValid = false;
+            }
+            else
+            {
+                ExamDateLB.Foreground = Brushes.White;
+            }
+
+            if (DisciplinesDG.SelectedItem == null)
+            {
+                MessageBox.Show(this,
+                            $"Выберите дисциплину в таблице!",
+                            "Ошибка",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Error
+                        );
+                return;
+            }
+
+            if (isValid)
+            {
+                var result = new SessionResult()
+                {
+                    DisciplineID = ((Discipline)DisciplinesDG.SelectedItem).ID,
+                    ExamDate = (DateTime)ExamDateDP.SelectedDate,
+                    ExamMark = Convert.ToInt16(LRC_Label.Text)
+                };
+                if (DBInterface.SessionResultADD(AddResultStudentNumberTB.Text.Trim(), result))
+                {
+                    MessageBox.Show(this,
+                            "Результат добавлен!",
+                            "Успех!",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Information
+                        );
+                }
+                else
+                {
+                    MessageBox.Show(this,
+                               $"Студента с таким номером зачетной книги не найдено!",
+                               "Ошибка",
+                               MessageBoxButton.OK,
+                               MessageBoxImage.Error
+                           );
+                }
+            }
+            else
+            {
+                MessageBox.Show(this,
+                            $"Не все обязательные поля заполнены!",
+                            "Ошибка",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Error
+                        );
+            }
+        }
     }
 }

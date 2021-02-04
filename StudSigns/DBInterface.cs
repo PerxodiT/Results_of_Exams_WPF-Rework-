@@ -88,5 +88,24 @@ namespace StudSigns
                 }
             }
         }
+
+        /// <returns>Returns true when session result added correctly</returns>
+        static public bool SessionResultADD(string StudentNumber, SessionResult sessionResult)
+        {
+            using (StudentContext db = new StudentContext())
+            {
+                var student = db.Students.Find(StudentNumber);
+                if (student != null)
+                {
+                    student.sessionResults.Add(sessionResult);
+                    db.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
     }
 }
